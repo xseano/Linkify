@@ -49,7 +49,7 @@
 
             <div class="field is-grouped">
               <div class="control">
-                <button class="button is-link">Submit</button>
+                <button class="button is-link">Register</button>
               </div>
             </div>
         </form>
