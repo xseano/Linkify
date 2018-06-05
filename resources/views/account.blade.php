@@ -12,6 +12,8 @@
         <link href="{{ asset('resources/css/app.css') }}" rel="stylesheet">
 
         <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="{{ asset('resources/js/app.js') }}"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 
         <!-- Fonts -->
@@ -44,8 +46,8 @@
                             <li class="is-active" id="infoTab">
                                 <a>Information</a>
                             </li>
-                            <li id="linkTab">
-                                <a>Saved Links</a>
+                            <li id="linksTab">
+                                <a>Links</a>
                             </li>
                         </ul>
                     </div>
