@@ -51,7 +51,7 @@ class HomeController extends Controller
             $uid = $user->id;
 
             // Check if the link exists on this account
-            $link_exist = \DB::table('links')->where('uid', $uid)->where('link', $url);
+            $link_exist = \DB::table('links')->where('uid', $uid)->where('url', $url);
             $link_count = count($link_exist->first());
 
             if ($link_count <= 0)
@@ -63,7 +63,7 @@ class HomeController extends Controller
                 // Store hash relational to base link
                 \DB::table('links')->insert(
                     [
-                        'link' => $url,
+                        'url' => $url,
                         'hash' => $hash,
                         'uid' => $uid
                     ]
