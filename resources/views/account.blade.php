@@ -85,7 +85,7 @@
                                @endforeach
                             </tbody>
                             @else
-                            <p>There doesn't seem to be any documented links tied to your account. If you believe this is an issue, please <a href="{{ url('/mail/account') }}">contact</a> our account support team!</p>
+                            <p>There doesn't seem to be any documented links tied to your account. Go <a href="{{ url('/home') }}">home</a> to get started!</p>
                             @endif
                         </table>
                     </div>
