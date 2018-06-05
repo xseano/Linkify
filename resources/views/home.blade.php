@@ -87,7 +87,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Shorten a Link!
+                    Shorten a Link &#128279;
                 </div>
 
                 <div class="subtitle m-b-md">
