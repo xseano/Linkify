@@ -40,7 +40,7 @@
                     Account Information
                 </div>
 
-                <div class="subtitle m-b-md">
+                <div class="subtitle m-b-md accountContent">
                     <div class="tabs is-centered">
                         <ul>
                             <li class="is-active" id="infoTab">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
 
-                <div class="subtitle m-b-md">
+                <div class="subtitle m-b-md accountContent">
 
                     <div class="content" id="information">
                         <h1 class="title">{{ Auth::user()->name }}</h1>
@@ -68,8 +68,8 @@
                                 <tr>
                                     <th>Ref ID</th>
                                     <th>Uses</th>
-                                    <th>Original Link</th>
-                                    <th>Shortened Link</th>
+                                    <th>Original URL</th>
+                                    <th>Link ID</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
