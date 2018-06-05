@@ -41,8 +41,10 @@ class HomeController extends Controller
         // NOTE: this ignores protocol
         if (filter_var($url, FILTER_VALIDATE_URL) === FALSE)
         {
-            // TODO: notify user
-            return 'no';
+            // URL is invalid
+            $response = 'The URL "' . $redirect_url . '" is invalid, please try another or contact support.';
+
+            return redirect()->intended('home')->withErrors(['link_error' => trans($response)]);
         }
         else
         {
@@ -51,7 +53,7 @@ class HomeController extends Controller
             $uid = $user->id;
 
             // Check if the link exists on this account
-            $link_exist = \DB::table('links')->where('uid', $uid)->where('url', $url);
+            $link_exist = \DB::table('links')->where('uid', $uid)->where('link', $url);
             $link_count = count($link_exist->first());
 
             if ($link_count <= 0)
@@ -63,15 +65,16 @@ class HomeController extends Controller
                 // Store hash relational to base link
                 \DB::table('links')->insert(
                     [
-                        'url' => $url,
+                        'link' => $url,
                         'hash' => $hash,
                         'uid' => $uid
                     ]
                 );
 
                 $redirect_url = url("/{$hash}");
+                $response = 'Success! You may now use the shortened link at: ' . $redirect_url;
 
-                return $redirect_url;
+                return redirect()->intended('home')->withErrors(['link_success' => trans($response)]);
             }
             else
             {
@@ -79,7 +82,9 @@ class HomeController extends Controller
                 $existing_link = $link_exist->first();
                 $redirect_url = url("/{$existing_link->hash}");
 
-                return $redirect_url;
+                $response = 'You have already registered this link, visit it at: ' . $redirect_url;
+
+                return redirect()->intended('home')->withErrors(['link_success' => trans($response)]);
             }
 
         }

@@ -39,8 +39,17 @@
                 </div>
 
                 <div class="subtitle m-b-md">
-                    <form method="POST" action="{{ route('home') }}">
+                    <form method="POST" action="{{ url('/home') }}">
                         @csrf
+
+                        @if ($errors->has('link_success'))
+                        <div class="link_success">{{ $errors->first('link_success') }}</div>
+                        @endif
+
+                        @if ($errors->has('link_error'))
+                        <div class="link_error">{{ $errors->first('link_error') }}</div>
+                        @endif
+
                         <input id="link" type="link" class="input" name="link" required>
                         <br>
                         <br>
