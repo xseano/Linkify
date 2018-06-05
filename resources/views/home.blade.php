@@ -40,7 +40,8 @@
 
                 <div class="subtitle m-b-md">
                     <form method="POST" action="{{ route('home') }}">
-                        <input id="url" type="url" class="input" name="url" required>
+                        @csrf
+                        <input id="link" type="link" class="input" name="link" required>
                         <br>
                         <br>
                         <div style="text-align: -webkit-center" class="control">
