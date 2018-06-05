@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -41,12 +42,46 @@ class HomeController extends Controller
         if (filter_var($url, FILTER_VALIDATE_URL) === FALSE)
         {
             // TODO: notify user
-            return 'invalid link';
+            return 'no';
         }
         else
         {
-            // TODO: continue on to check / store the URL
-            return 'valid link';
+            // User data
+            $user = Auth::user();
+            $uid = $user->id;
+
+            // Check if the link exists on this account
+            $link_exist = \DB::table('links')->where('uid', $uid)->where('link', $url);
+            $link_count = count($link_exist->first());
+
+            if ($link_count <= 0)
+            {
+                // Create hash
+                $base = $uid.$url;
+                $hash = crc32($base);
+
+                // Store hash relational to base link
+                \DB::table('links')->insert(
+                    [
+                        'link' => $url,
+                        'hash' => $hash,
+                        'uid' => $uid
+                    ]
+                );
+
+                $redirect_url = url("/{$hash}");
+
+                return $redirect_url;
+            }
+            else
+            {
+                // Return back the existing data
+                $existing_link = $link_exist->first();
+                $redirect_url = url("/{$existing_link->hash}");
+
+                return $redirect_url;
+            }
+
         }
     }
 }
