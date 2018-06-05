@@ -94,8 +94,8 @@ class HomeController extends Controller
     {
         // Check if hash exists
         $links = \DB::table('links');
-        $link = $links->where('hash', $hash)->first();
-        $link_count = count($link);
+        $link = $links->where('hash', $hash);
+        $link_count = count($link->first());
 
         if ($link_count <= 0)
         {
@@ -104,8 +104,11 @@ class HomeController extends Controller
         }
         else
         {
+            // Increment the amount of times this link has been used
+            $link->increment('count');
+
             // Redirect is valid, proceed
-            return redirect($link->link);
+            return redirect($link->first()->link);
         }
 
     }
