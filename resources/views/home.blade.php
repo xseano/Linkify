@@ -7,6 +7,12 @@
 
         <title>Dashboard</title>
 
+        <!-- Styles -->
+        <link href="{{ asset('resources/css/bulma.css') }}" rel="stylesheet">
+
+        <!-- Scripts -->
+        <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
@@ -81,15 +87,17 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Welcome {{ Auth::user()->name }}
+                    Shorten a Link!
+                </div>
+
+                <div class="subtitle m-b-md">
+                    <input id="link" type="link" class="input" name="link" required>
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://github.com/xseano/">Author</a>
+                    <a href="https://github.com/xseano/Linkify">Source Code</a>
+                    <a href="{{ url('/about') }}">About</a>
                 </div>
             </div>
         </div>
