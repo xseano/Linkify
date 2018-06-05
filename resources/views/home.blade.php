@@ -39,7 +39,14 @@
                 </div>
 
                 <div class="subtitle m-b-md">
-                    <input id="link" type="link" class="input" name="link" required>
+                    <form method="POST" action="{{ route('home') }}">
+                        <input id="url" type="url" class="input" name="url" required>
+                        <br>
+                        <br>
+                        <div style="text-align: -webkit-center" class="control">
+                          <button class="button is-link">Shorten</button>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="links">
