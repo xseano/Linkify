@@ -112,4 +112,12 @@ class HomeController extends Controller
         }
 
     }
+
+    public function getAccount()
+    {
+        $uid = Auth::user()->id;
+        $linkData = \DB::table('links')->where('uid', $uid)->orderBy('date', 'desc')->paginate(15);
+
+        return view('account')->with('links', $linkData)
+    }
 }
