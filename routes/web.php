@@ -19,3 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/home', 'HomeController@parseURL')->name('home');
+
+Route::get('/{hash}', 'HomeController@processRedirectURL')->name('redirect');

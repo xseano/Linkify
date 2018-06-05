@@ -84,4 +84,24 @@ class HomeController extends Controller
 
         }
     }
+
+    public function processRedirectURL($hash)
+    {
+        // Check if hash exists
+        $links = \DB::table('links');
+        $link = $links->where('hash', $hash)->first();
+        $link_count = count($link);
+
+        if ($link_count <= 0)
+        {
+            // Redirect doesn't exist, return 404
+            return abort(404);
+        }
+        else
+        {
+            // Redirect is valid, proceed
+            return redirect($link->link);
+        }
+
+    }
 }
