@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Dashboard</title>
+        <title>Home</title>
 
         <!-- Styles -->
         <link href="{{ asset('resources/css/bulma.css') }}" rel="stylesheet">
@@ -50,10 +50,10 @@
                         <div class="link_error">{{ $errors->first('link_error') }}</div>
                         @endif
 
-                        <input id="link" type="link" class="input" name="link" required>
+                        <input id="link" type="url" class="input" name="link" required>
                         <br>
                         <br>
-                        <div style="text-align: -webkit-center" class="control">
+                        <div style="text-align: center;" class="control">
                           <button class="button is-link">Shorten</button>
                         </div>
                     </form>
