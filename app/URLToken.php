@@ -35,10 +35,10 @@ class URLToken extends Model
             while ($int > 0)
             {
                 $prepStr .=  $this->alphabet[($int % $this->len)];
-                $newInt = floor($int / $this->len);
+                $int = floor($int / $this->len);
             }
 
-            return strrev($string);
+            return strrev($prepStr);
         }
     }
 
