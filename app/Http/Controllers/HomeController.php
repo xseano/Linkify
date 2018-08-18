@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use App\Link;
 use App\URLToken;
 
 class HomeController extends Controller
@@ -55,7 +57,8 @@ class HomeController extends Controller
             $uid = $user->id;
 
             // Check if the link exists on this account
-            $link_exist = \DB::table('links')->where('uid', $uid)->where('link', $url);
+            $link_exist = Link::whereUid($uid);
+            $link_exist = $link_exist->where('link', $url);
             $link_count = count($link_exist->first());
 
             if ($link_count <= 0)
@@ -66,7 +69,7 @@ class HomeController extends Controller
                 $token = $this->tokenizer->encode($hash);
 
                 // Store token relational to base link
-                \DB::table('links')->insert(
+                Link::insert(
                     [
                         'link' => $url,
                         'token' => $token,
@@ -97,8 +100,7 @@ class HomeController extends Controller
     public function processRedirectURL($token)
     {
         // Check if token exists
-        $links = \DB::table('links');
-        $link = $links->where('token', $token);
+        $link = Link::whereToken($token);
         $link_count = count($link->first());
 
         if ($link_count <= 0)
@@ -120,7 +122,7 @@ class HomeController extends Controller
     public function getAccount()
     {
         $uid = Auth::user()->id;
-        $linkData = \DB::table('links')->where('uid', $uid)->orderBy('date', 'desc')->paginate(15);
+        $linkData = Link::whereUid($uid)->orderBy('date', 'desc')->paginate(15);
 
         return view('account')->with('links', $linkData);
     }
