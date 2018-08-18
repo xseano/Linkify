@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\URLToken;
 
 class HomeController extends Controller
 {
@@ -15,6 +16,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->tokenizer = new URLToken('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
     }
 
     /**
@@ -61,6 +63,7 @@ class HomeController extends Controller
                 // Create hash
                 $base = $uid.$url;
                 $hash = crc32($base);
+                $token = $this->tokenizer->encode($hash);
 
                 // Store hash relational to base link
                 \DB::table('links')->insert(
@@ -71,7 +74,7 @@ class HomeController extends Controller
                     ]
                 );
 
-                $redirect_url = url("/{$hash}");
+                $redirect_url = url("/{$token}");
                 $response = 'Success! You may now use the shortened link at: ' . $redirect_url;
 
                 return redirect()->intended('home')->withErrors(['link_success' => trans($response)]);
@@ -90,10 +93,12 @@ class HomeController extends Controller
         }
     }
 
-    public function processRedirectURL($hash)
+    public function processRedirectURL($token)
     {
         // Check if hash exists
         $links = \DB::table('links');
+        $hash = $this->tokenizer->decode($token);
+
         $link = $links->where('hash', $hash);
         $link_count = count($link->first());
 
