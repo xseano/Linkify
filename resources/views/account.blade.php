@@ -79,7 +79,7 @@
                                  <td>{{ 100000 + $link->id }}</td>
                                  <td>{{ $link->count }}</td>
                                  <td>{{ $link->link }}</td>
-                                 <td>{{ $link->hash }}</td>
+                                 <td>{{ $link->token }}</td>
                                  <td>{{ date('F d, Y', strtotime(date('d-m-Y', strtotime($link->date)))) }}</td>
                                </tr>
                                @endforeach

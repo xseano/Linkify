@@ -16,7 +16,7 @@ class CreateLinks extends Migration
         Schema::create('links', function (Blueprint $table) {
             $table->increments('id');
             $table->string('link');
-            $table->string('hash');
+            $table->string('token');
             $table->integer('count')->unsigned()->default(0);
             $table->integer('uid')->unsigned()->index('uid');
             $table->timestamp('date')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));

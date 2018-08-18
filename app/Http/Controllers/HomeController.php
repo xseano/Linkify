@@ -60,16 +60,16 @@ class HomeController extends Controller
 
             if ($link_count <= 0)
             {
-                // Create hash
+                // Create hash and token
                 $base = $uid.$url;
                 $hash = crc32($base);
                 $token = $this->tokenizer->encode($hash);
 
-                // Store hash relational to base link
+                // Store token relational to base link
                 \DB::table('links')->insert(
                     [
                         'link' => $url,
-                        'hash' => $hash,
+                        'token' => $token,
                         'uid' => $uid
                     ]
                 );
@@ -83,7 +83,7 @@ class HomeController extends Controller
             {
                 // Return back the existing data
                 $existing_link = $link_exist->first();
-                $token = $this->tokenizer->encode($existing_link->hash);
+                $token = $existing_link->token;
                 $redirect_url = url("/{$token}");
 
                 $response = 'You have already registered this link, visit it at: ' . $redirect_url;
@@ -96,12 +96,9 @@ class HomeController extends Controller
 
     public function processRedirectURL($token)
     {
-        // Decode token into hash
-        $hash = $this->tokenizer->decode($token);
-
-        // Check if hash exists
+        // Check if token exists
         $links = \DB::table('links');
-        $link = $links->where('hash', $hash);
+        $link = $links->where('token', $token);
         $link_count = count($link->first());
 
         if ($link_count <= 0)
