@@ -96,10 +96,11 @@ class HomeController extends Controller
 
     public function processRedirectURL($token)
     {
-        // Check if hash exists
-        $links = \DB::table('links');
+        // Decode token into hash
         $hash = $this->tokenizer->decode($token);
 
+        // Check if hash exists
+        $links = \DB::table('links');
         $link = $links->where('hash', $hash);
         $link_count = count($link->first());
 

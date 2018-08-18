@@ -44,13 +44,13 @@ class URLToken extends Model
 
     public function decode($str)
     {
-        $defInt = 0;
+        $int = 0;
         $len = strlen($str);
 
         for ($i = 0; $i < $len; $i++)
         {
             $chPos = strpos($this->alphabet, $str[$i]);
-            $int = $defInt * ($this->len) + $chPos;
+            $int = $int * ($this->len) + $chPos;
         }
 
         return $int;
