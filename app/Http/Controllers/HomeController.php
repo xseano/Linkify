@@ -83,7 +83,8 @@ class HomeController extends Controller
             {
                 // Return back the existing data
                 $existing_link = $link_exist->first();
-                $redirect_url = url("/{$existing_link->hash}");
+                $token = $this->tokenizer->encode($existing_link->hash);
+                $redirect_url = url("/{$token}");
 
                 $response = 'You have already registered this link, visit it at: ' . $redirect_url;
 
