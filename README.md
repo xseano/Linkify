@@ -1,6 +1,6 @@
-# Linkify
+# ![Linkify](https://screenshotscdn.firefoxusercontent.com/images/12b7fc53-a912-48ff-bf55-77d7d7c4afb1.png)
 
-Linkify is an intuitive and comprehensive link shortener service made with Laravel 5.6 and PHP 7.1
+**Linkify is an intuitive and comprehensive link shortener service made with Laravel 5.6 and PHP 7.1**
 
 # Features
 
