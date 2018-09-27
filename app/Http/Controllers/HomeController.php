@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Link;
+use App\URLToken;
+
 class HomeController extends Controller
 {
     /**
@@ -15,6 +18,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->tokenizer = new URLToken('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890');
     }
 
     /**
@@ -53,25 +57,27 @@ class HomeController extends Controller
             $uid = $user->id;
 
             // Check if the link exists on this account
-            $link_exist = \DB::table('links')->where('uid', $uid)->where('link', $url);
+            $link_exist = Link::whereUid($uid);
+            $link_exist = $link_exist->where('link', $url);
             $link_count = count($link_exist->first());
 
             if ($link_count <= 0)
             {
-                // Create hash
+                // Create hash and token
                 $base = $uid.$url;
                 $hash = crc32($base);
+                $token = $this->tokenizer->encode($hash);
 
-                // Store hash relational to base link
-                \DB::table('links')->insert(
+                // Store token relational to base link
+                Link::insert(
                     [
                         'link' => $url,
-                        'hash' => $hash,
+                        'token' => $token,
                         'uid' => $uid
                     ]
                 );
 
-                $redirect_url = url("/{$hash}");
+                $redirect_url = url("/{$token}");
                 $response = 'Success! You may now use the shortened link at: ' . $redirect_url;
 
                 return redirect()->intended('home')->withErrors(['link_success' => trans($response)]);
@@ -80,7 +86,8 @@ class HomeController extends Controller
             {
                 // Return back the existing data
                 $existing_link = $link_exist->first();
-                $redirect_url = url("/{$existing_link->hash}");
+                $token = $existing_link->token;
+                $redirect_url = url("/{$token}");
 
                 $response = 'You have already registered this link, visit it at: ' . $redirect_url;
 
@@ -90,11 +97,10 @@ class HomeController extends Controller
         }
     }
 
-    public function processRedirectURL($hash)
+    public function processRedirectURL($token)
     {
-        // Check if hash exists
-        $links = \DB::table('links');
-        $link = $links->where('hash', $hash);
+        // Check if token exists
+        $link = Link::whereToken($token);
         $link_count = count($link->first());
 
         if ($link_count <= 0)
@@ -116,7 +122,7 @@ class HomeController extends Controller
     public function getAccount()
     {
         $uid = Auth::user()->id;
-        $linkData = \DB::table('links')->where('uid', $uid)->orderBy('date', 'desc')->paginate(15);
+        $linkData = Link::whereUid($uid)->orderBy('date', 'desc')->paginate(15);
 
         return view('account')->with('links', $linkData);
     }
