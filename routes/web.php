@@ -21,4 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/home', 'HomeController@parseURL')->name('home');
 Route::get('/account', 'HomeController@getAccount')->name('account');
 
-Route::get('/{hash}', 'HomeController@processRedirectURL')->name('redirect');
+Route::get('/{hash}', 'LinkController@processRedirectURL')->name('redirect');
